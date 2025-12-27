@@ -1,4 +1,5 @@
-const API = "http://localhost:3000/api";
+const API = "https://group-alarm.onrender.com/api";  
+
 
 /* LOGIN */
 function login() {
