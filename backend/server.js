@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
+
 const PORT = process.env.PORT || 5000;
-
-
 
 const User = require("./User");
 const Group = require("./Group");
@@ -16,8 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Atlas Connected"))
-.catch(err => console.error("MongoDB error:", err));
+  .then(() => console.log("MongoDB Atlas Connected"))
+  .catch(err => console.error("MongoDB error:", err));
 
 /* LOGIN */
 app.post("/api/login", async (req, res) => {
@@ -26,13 +25,10 @@ app.post("/api/login", async (req, res) => {
   res.json(user);
 });
 
-
-
-
 /* GET GROUPS */
 app.get("/api/groups", async (req, res) => {
   const groups = await Group.find({ members: req.query.email });
-  res.json(groups); // ✅ sends groupCode also
+  res.json(groups);
 });
 
 /* CREATE ALARM */
@@ -41,43 +37,34 @@ app.post("/api/alarm", async (req, res) => {
   res.json(alarm);
 });
 
-// Serve frontend files
+/* SERVE FRONTEND */
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-// Default route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
-
-app.listen(3000, () =>
-  console.log("Backend running on http://localhost:3000")
-);
-
+/* CREATE GROUP */
 function generateCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
 app.post("/api/group", async (req, res) => {
   const code = generateCode();
-
   const group = await Group.create({
     name: req.body.name,
     admin: req.body.admin,
     members: [req.body.admin],
-    groupCode: code   // 🔥 SAVE CODE
+    groupCode: code
   });
-
-  res.json(group); // 🔥 SEND CODE TO FRONTEND
+  res.json(group);
 });
 
+/* JOIN GROUP */
 app.post("/api/join-by-code", async (req, res) => {
   const { code, email } = req.body;
-
   const group = await Group.findOne({ groupCode: code });
-  if (!group) {
-    return res.status(404).json({ message: "Invalid group code" });
-  }
+  if (!group) return res.status(404).json({ message: "Invalid group code" });
 
   if (!group.members.includes(email)) {
     group.members.push(email);
@@ -87,16 +74,22 @@ app.post("/api/join-by-code", async (req, res) => {
   res.json({ message: "Joined successfully", group });
 });
 
-/* GET ALARMS FOR GROUP (CHAT STYLE) */
+/* GET ALARMS */
 app.get("/api/alarms", async (req, res) => {
   const alarms = await Alarm.find({ groupId: req.query.groupId })
     .sort({ createdAt: 1 });
   res.json(alarms);
 });
 
+/* MARK ALARM TRIGGERED */
 app.put("/api/alarm-triggered/:id", async (req, res) => {
   await Alarm.findByIdAndUpdate(req.params.id, { triggered: true });
   res.json({ success: true });
+});
+
+/* START SERVER */
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
 });
 
 
