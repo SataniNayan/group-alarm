@@ -1,0 +1,363 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+  color: #333;
+}
+
+/* ===== CENTER LAYOUT ===== */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #ffffff;
+  width: 350px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  animation: fadeIn 0.6s ease;
+}
+
+.card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4a4a4a;
+}
+
+/* ===== INPUTS ===== */
+input, select {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102,126,234,0.2);
+}
+
+/* ===== BUTTON ===== */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #ffffff;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+header h2 {
+  margin: 0;
+  color: #444;
+}
+
+header button {
+  width: auto;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ===== GROUP LIST ===== */
+#groupsDiv {
+  padding: 15px;
+}
+
+.group-item {
+  background: #ffffff;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.group-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+/* ===== GROUP ICON ===== */
+.group-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .card {
+    width: 90%;
+  }
+}
+
+.code-box {
+  background: #82dbdd;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 8px;
+}
+
+.chat-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+
+  background: #075e54;
+  color: white;
+  z-index: 1000;
+}
+
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-code-top {
+  font-size: 13px;
+  background: rgba(255,255,255,0.15);
+  padding: 4px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+
+/* Small sound button */
+.sound-btn {
+  margin-left: auto;   /* 🔥 PUSHES BUTTON + CODE TO RIGHT */
+  background: #0dea5b;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 6px;   /* space before code */
+}
+
+
+
+.chat-box {
+  position: fixed;
+
+  top: 60px;        /* below top bar */
+  bottom: 70px;     /* above bottom bar */
+  left: 0;
+  right: 0;
+
+  overflow-y: auto; /* 🔥 scroll only here */
+  padding: 10px;
+
+  background: #a9f6f5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Bottom Alarm Bar ===== */
+.chat-input {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+
+  background: #fff;
+  border-top: 1px solid #ddd;
+  z-index: 1000;
+}
+
+
+/* Time picker */
+.chat-input input[type="datetime-local"] {
+  flex: 3;                 /* 30% */
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
+
+#messageInput {
+  flex: 5;                 /* 50% */
+  padding: 12px 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+
+#alarmMode {
+  flex: 1;                 /* 10% */
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+.send-btn {
+  flex: 1;                 /* 10% */
+  background: #25d366;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+
+.chat-input {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+
+/* COMMON MESSAGE STYLE */
+.message {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 8px;
+}
+
+.message.me {
+  margin-left: auto;
+  background: #dcf8c6;
+  text-align: right;
+}
+
+.message.other {
+  margin-right: auto;
+  background: #fff;
+  text-align: left;
+}
+
+
+.sender {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.msg-time {
+  font-size: 11px;
+  color: gray;
+}
+
+.msg-mode {
+  font-size: 18px;
+  margin-top: 4px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#enableSoundBtn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 6px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#enableSoundBtn:hover {
+  background: rgba(255,255,255,0.35);
+}
+

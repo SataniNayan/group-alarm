@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Group</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<!-- TOP BAR -->
+<div class="chat-header">
+  <div class="header-left">
+    <div class="group-icon" id="groupIcon"></div>
+    <div class="group-info">
+      <h3 id="groupName">Group</h3>
+    </div>
+  </div>
+  <button onclick="unlockSound()" class="sound-btn">🔊</button>
+
+
+  <div class="group-code-top">
+      Code: <strong id="groupCode"></strong>
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+<!-- CHAT MESSAGES -->
+<div id="chatBox" class="chat-box"></div>
+
+<!-- BOTTOM BAR -->
+<div class="chat-input">
+  <input class="time-btn" type="datetime-local" id="alarmTime">
+  <input id="messageInput" placeholder="Alarm message">
+  <select id="alarmMode">
+    <option value="silent">🔕</option>
+    <option value="vibrate">📳</option>
+    <option value="ring">🔔</option>
+  </select>
+  <button type="button" class="send-btn" onclick="sendAlarm()">Send</button>
+
+</div>
+
+
+
+
+<script src="app.js"></script>
+<script>loadChat()</script>
+
+
+
+<audio id="alarmSound" preload="auto">
+  <source src="alarm.mp3" type="audio/mpeg">
+</audio>
+
+
+</body>
+</html>
+
