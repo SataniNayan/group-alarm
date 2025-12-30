@@ -166,30 +166,23 @@ function loadChat() {
 }
 let soundUnlocked = false;
 
+
 function unlockSound() {
   const sound = document.getElementById("alarmSound");
 
-  if (!sound) {
-    alert("❌ Audio element missing");
-    return;
-  }
-
-  // MUST be audible (volume > 0)
-  sound.volume = 0.01;
-  sound.loop = false;
-
-  sound.play()
-    .then(() => {
-      sound.pause();
-      sound.currentTime = 0;
-      soundUnlocked = true;
-      alert("✅ Sound enabled");
-    })
-    .catch(err => {
-      console.error(err);
-      alert("⚠️ Tap screen once, then press 🔊 again");
-    });
+  sound.muted = true;
+  sound.play().then(() => {
+    sound.pause();
+    sound.currentTime = 0;
+    sound.muted = false;
+    soundUnlocked = true;
+    alert("✅ Sound enabled");
+  }).catch(() => {
+    alert("❌ Click again");
+  });
 }
+
+
 
 
 
