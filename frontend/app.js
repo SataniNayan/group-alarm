@@ -170,25 +170,27 @@ function unlockSound() {
   const sound = document.getElementById("alarmSound");
 
   if (!sound) {
-    alert("❌ Audio element not found");
+    alert("❌ Audio element missing");
     return;
   }
 
-  sound.muted = true;
+  // MUST be audible (volume > 0)
+  sound.volume = 0.01;
+  sound.loop = false;
 
   sound.play()
     .then(() => {
       sound.pause();
       sound.currentTime = 0;
-      sound.muted = false;
       soundUnlocked = true;
-      alert("✅ Sound enabled successfully");
+      alert("✅ Sound enabled");
     })
     .catch(err => {
-      console.error("Audio unlock failed:", err);
-      alert("⚠️ Browser blocked sound. Tap screen once and try again.");
+      console.error(err);
+      alert("⚠️ Tap screen once, then press 🔊 again");
     });
 }
+
 
 
 
@@ -249,13 +251,14 @@ function triggerAlarm(alarm) {
 
   if (alarm.mode === "ring") {
     if (!soundUnlocked) {
-      alert("🔊 Please enable sound first");
+      alert("🔊 Enable sound first");
       return;
     }
 
     sound.loop = true;
+    sound.currentTime = 0;
     sound.play().catch(() => {
-      alert("❌ Browser blocked sound (tab inactive)");
+      alert("❌ Sound blocked (tab inactive)");
     });
   }
 
@@ -265,13 +268,9 @@ function triggerAlarm(alarm) {
     }
   }
 
-  if (alarm.mode === "silent") {
-    console.log("Silent alarm");
-  }
-
-  // 🔥 VERY IMPORTANT: stop repeat alarms
   fetch(API + "/alarm-triggered/" + alarm._id, { method: "PUT" });
 }
+
 
 
 
