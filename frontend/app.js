@@ -166,20 +166,27 @@ function loadChat() {
 }
 let soundUnlocked = false;
 
+
 function unlockSound() {
   const sound = document.getElementById("alarmSound");
 
-  sound.muted = true;
-  sound.play().then(() => {
-    sound.pause();
-    sound.currentTime = 0;
-    sound.muted = false;
-    soundUnlocked = true;
-    alert("✅ Sound enabled");
-  }).catch(() => {
-    alert("❌ Click again");
-  });
+  sound.currentTime = 0;
+  sound.muted = false;
+
+  sound.play()
+    .then(() => {
+      sound.pause();
+      sound.currentTime = 0;
+      soundUnlocked = true;
+
+      alert("✅ Sound enabled. Alarms will ring.");
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Browser blocked sound. Tap screen once and try again.");
+    });
 }
+
 
 
 setInterval(() => {
@@ -189,10 +196,9 @@ setInterval(() => {
       const now = new Date();
 
       alarms.forEach(alarm => {
-        if (alarm.triggered) return; // 🔥 STOP REPEAT
+        if (alarm.triggered) return;
 
         const alarmTime = new Date(alarm.time);
-
         if (Math.abs(now - alarmTime) < 30000) {
           triggerAlarm(alarm);
         }
@@ -238,32 +244,31 @@ function triggerAlarm(alarm) {
   const sound = document.getElementById("alarmSound");
 
   if (alarm.mode === "ring") {
-  if (!soundUnlocked) {
-    alert("Enable sound first 🔊");
-    return;
+    if (!soundUnlocked) {
+      alert("🔊 Please enable sound first");
+      return;
+    }
+
+    sound.loop = true;
+    sound.play().catch(() => {
+      alert("❌ Browser blocked sound (tab inactive)");
+    });
   }
-
-  sound.loop = true;
-  sound.play();
-}
-
 
   if (alarm.mode === "vibrate") {
     if (navigator.vibrate) {
       navigator.vibrate([500, 300, 500, 300, 500]);
-      alert("📳 Alarm vibration");
-    } else {
-      alert("Vibration not supported on this device");
     }
   }
 
   if (alarm.mode === "silent") {
-    alert("🔕 Silent alarm");
+    console.log("Silent alarm");
   }
 
-  // Mark alarm as triggered
+  // 🔥 VERY IMPORTANT: stop repeat alarms
   fetch(API + "/alarm-triggered/" + alarm._id, { method: "PUT" });
 }
+
 
 
 
