@@ -166,26 +166,30 @@ function loadChat() {
 }
 let soundUnlocked = false;
 
-
 function unlockSound() {
   const sound = document.getElementById("alarmSound");
 
-  sound.currentTime = 0;
-  sound.muted = false;
+  if (!sound) {
+    alert("❌ Audio element not found");
+    return;
+  }
+
+  sound.muted = true;
 
   sound.play()
     .then(() => {
       sound.pause();
       sound.currentTime = 0;
+      sound.muted = false;
       soundUnlocked = true;
-
-      alert("✅ Sound enabled. Alarms will ring.");
+      alert("✅ Sound enabled successfully");
     })
     .catch(err => {
-      console.error(err);
-      alert("❌ Browser blocked sound. Tap screen once and try again.");
+      console.error("Audio unlock failed:", err);
+      alert("⚠️ Browser blocked sound. Tap screen once and try again.");
     });
 }
+
 
 
 
